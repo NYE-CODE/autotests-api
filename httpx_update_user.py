@@ -16,6 +16,8 @@ create_user_response = httpx.post(f"{base_url}/users", json=create_user_payload)
 create_user_response_data = create_user_response.json()
 
 print(f"Create user data: {create_user_response_data}")
+print(f"Create user response status code: {create_user_response.status_code}")
+
 
 user_id = create_user_response_data["user"]["id"]
 
