@@ -3,7 +3,7 @@ from typing import Annotated
 from pydantic import BaseModel, EmailStr, Field
 
 
-Password = Annotated[str, Field(min_length=8)]  # Enforces minimum password length validation
+Password = Annotated[str, Field(min_length=8)]  # Обеспечивает проверку минимальной длины пароля
 
 
 class UserSchema(BaseModel):
