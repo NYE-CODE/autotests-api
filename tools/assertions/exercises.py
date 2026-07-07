@@ -8,7 +8,7 @@ def assert_create_exercise_response(
         response: CreateExerciseResponseSchema
 ):
     """
-    Проверяет, что ответ на создание упражненія соответствует данным из запроса.
+    Проверяет, что ответ на создание упражнения соответствует данным из запроса.
 
     :param request: Исходный запрос на создание упражнения.
     :param response: Ответ с созданным упражнением.
@@ -30,6 +30,7 @@ def assert_exercise(actual: ExerciseSchema, expected: ExerciseSchema):
     :param expected: Ожидаемые данные упражнения.
     :raises AssertionError: Если хотя бы одно поле не совпадает.
     """
+    assert_equal(actual.id, expected.id, "id")
     assert_equal(actual.title, expected.title, "title")
     assert_equal(actual.course_id, expected.course_id, "course_id")
     assert_equal(actual.max_score, expected.max_score, "max_score")

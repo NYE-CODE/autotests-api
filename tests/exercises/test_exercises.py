@@ -1,5 +1,4 @@
 from http import HTTPStatus
-from urllib import request
 
 import pytest
 
