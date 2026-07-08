@@ -43,7 +43,7 @@ class ExercisesClient(APIClient):
     def update_exercise_api(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> Response:
         """
         Метод для обновления упражнения.
-        :param exercise_id: Индентификатор упражнения.
+        :param exercise_id: Идентификатор упражнения.
         :param request: Словарь с title, courseId, maxScore, minScore, orderIndex, description, estimatedTime.
         :return: Ответ от сервера в виде объекта httpx.Response.
         """

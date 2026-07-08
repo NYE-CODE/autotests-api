@@ -3,6 +3,9 @@ from typing import Any
 
 
 class ValidationErrorSchema(BaseModel):
+    """
+    Описание структуры ошибки валидации.
+    """
     model_config = ConfigDict(populate_by_name=True)
 
     type: str
@@ -13,6 +16,18 @@ class ValidationErrorSchema(BaseModel):
 
 
 class ValidationErrorResponseSchema(BaseModel):
+    """
+    Описание структуры ответа API с ошибками валидации.
+    """
     model_config = ConfigDict(populate_by_name=True)
 
     details: list[ValidationErrorSchema] = Field(alias="detail")
+
+
+class InternalErrorResponseSchema(BaseModel):
+    """
+    Описание структуры ответа API с внутренней ошибкой.
+    """
+    model_config = ConfigDict(populate_by_name=True)
+
+    detail: str

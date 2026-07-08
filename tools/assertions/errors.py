@@ -1,4 +1,4 @@
-from clients.errors_schema import ValidationErrorSchema, ValidationErrorResponseSchema
+from clients.errors_schema import ValidationErrorSchema, ValidationErrorResponseSchema, InternalErrorResponseSchema
 from tools.assertions.base import assert_equal, assert_length
 
 
@@ -33,3 +33,18 @@ def assert_validation_error_response(
 
     for index, detail in enumerate(expected.details):
         assert_validation_error(actual.details[index], detail)
+
+
+def assert_internal_error_response(
+        actual: InternalErrorResponseSchema,
+        expected: InternalErrorResponseSchema
+):
+    """
+    Проверяет, что объект ответа API с внутренней ошибкой (`InternalErrorResponseSchema`)
+    соответствует ожидаемому значению.
+
+    :param actual: Фактический ответ API.
+    :param expected: Ожидаемый ответ API.
+    :raises AssertionError: Если значения полей не совпадают.
+    """
+    assert_equal(actual.detail, expected.detail, "detail")

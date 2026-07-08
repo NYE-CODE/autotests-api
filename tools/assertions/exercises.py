@@ -1,7 +1,9 @@
+from clients.errors_schema import InternalErrorResponseSchema
 from clients.exercises.exercises_schema import CreateExerciseRequestSchema, CreateExerciseResponseSchema, \
     ExerciseSchema, GetExercisesResponseSchema, GetExerciseResponseSchema, UpdateExerciseResponseSchema, \
     UpdateExerciseRequestSchema
 from tools.assertions.base import assert_equal, assert_length
+from tools.assertions.errors import assert_internal_error_response
 
 
 def assert_create_exercise_response(
@@ -64,8 +66,8 @@ def assert_get_exercise_response(
     """
     Проверяет, что ответ на получение упражнения соответствует ответу на его создание.
 
-    :param get_exercise_response: Ответ API при запросе данных файла.
-    :param create_exercise_response: Ответ API при создании файла.
+    :param get_exercise_response: Ответ API при запросе данных упражнения.
+    :param create_exercise_response: Ответ API при создании упражнения.
     :raises AssertionError: Если данные упражнения не совпадают.
     """
     assert_exercise(get_exercise_response.exercise, create_exercise_response.exercise)
@@ -87,3 +89,16 @@ def assert_update_exercise_response(
     assert_equal(response.exercise.order_index, request.order_index, "order_index")
     assert_equal(response.exercise.description, request.description, "description")
     assert_equal(response.exercise.estimated_time, request.estimated_time, "estimated_time")
+
+def assert_exercise_not_found_response(actual: InternalErrorResponseSchema):
+    """
+    Проверяет, что ответ на получение удалённого упражнения соответствует ожидаемой внутренней ошибке.
+
+    :param actual: Ответ от API с внутренней ошибкой, который необходимо проверить.
+    :raises AssertionError: Если фактический ответ не соответствует ожидаемому.
+    """
+    expected = InternalErrorResponseSchema(
+        detail="Exercise not found"
+    )
+
+    assert_internal_error_response(actual, expected)
