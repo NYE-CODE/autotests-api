@@ -102,3 +102,4 @@ def assert_exercise_not_found_response(actual: InternalErrorResponseSchema):
     )
 
     assert_internal_error_response(actual, expected)
+

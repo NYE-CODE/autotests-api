@@ -7,17 +7,33 @@ from clients.users.users_schema import CreateUserRequestSchema, CreateUserRespon
 from fixtures.users import UserFixture
 
 import pytest
+import allure
 
+from tools.allure.epics import AllureEpic
+from tools.allure.features import AllureFeature
+from tools.allure.stories import AllureStory
+from tools.allure.tags import AllureTag
 from tools.assertions.base import assert_status_code
 from tools.assertions.schema import validate_json_schema
 from tools.assertions.users import assert_create_user_response, assert_get_user_response
 from tools.fakers import fake
+from allure_commons.types import Severity
 
 
 @pytest.mark.users
 @pytest.mark.regression
+@allure.tag(AllureTag.USERS, AllureTag.REGRESSION)
+@allure.epic(AllureEpic.LMS)
+@allure.feature(AllureFeature.USERS)
+@allure.parent_suite(AllureEpic.LMS)
+@allure.suite(AllureFeature.USERS)
 class TestUsers:
     @pytest.mark.parametrize("domain", ["mail.ru", "gmail.com", "example.com"])
+    @allure.tag(AllureTag.CREATE_ENTITY)
+    @allure.story(AllureStory.CREATE_ENTITY)
+    @allure.title("Create user")
+    @allure.severity(Severity.BLOCKER)
+    @allure.sub_suite(AllureStory.CREATE_ENTITY)
     def test_create_user(self, domain: str, public_users_client: PublicUsersClient):
         email = fake.email(domain=domain)
         request = CreateUserRequestSchema(email=email)
@@ -31,6 +47,11 @@ class TestUsers:
 
     @pytest.mark.users
     @pytest.mark.regression
+    @allure.tag(AllureTag.GET_ENTITY)
+    @allure.story(AllureStory.GET_ENTITY)
+    @allure.title("Get user me")
+    @allure.severity(Severity.CRITICAL)
+    @allure.sub_suite(AllureStory.GET_ENTITY)
     def test_get_user_me(self, private_users_client: PrivateUsersClient, function_user: UserFixture):
         response = private_users_client.get_user_me_api()
         response_data = GetUserResponseSchema.model_validate_json(response.text)
