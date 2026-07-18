@@ -6,11 +6,14 @@ from clients.public_http_builder import get_public_http_client
 from clients.users.users_schema import CreateUserResponseSchema
 from pydantic_create_user import CreateUserRequestSchema
 
+import allure
+
 
 class PublicUsersClient(APIClient):
     """
     API-клиент для публичной работы пользователя.
     """
+    @allure.step("Create new user")
     def create_user_api(self, request: CreateUserRequestSchema) -> Response:
         """
         Метод создает пользователя.

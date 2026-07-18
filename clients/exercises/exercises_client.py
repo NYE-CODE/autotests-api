@@ -1,5 +1,3 @@
-
-
 from clients.api_client import APIClient
 from clients.exercises.exercises_schema import CreateExerciseRequestSchema, UpdateExerciseRequestSchema, \
     GetExercisesQuerySchema, GetExercisesResponseSchema, GetExerciseResponseSchema, CreateExerciseResponseSchema, \
@@ -8,14 +6,14 @@ from clients.private_http_builder import AuthenticationUserSchema, get_private_h
 
 from httpx import Response
 
-
+import allure
 
 
 class ExercisesClient(APIClient):
     """
     Клиент для работы с /api/v1/exercises.
     """
-
+    @allure.step("Get exercises")
     def get_exercises_api(self, query: GetExercisesQuerySchema) -> Response:
         """
         Метод для получения списка упражнений.
@@ -24,7 +22,8 @@ class ExercisesClient(APIClient):
         """
         return self.get("/api/v1/exercises", params=query.model_dump(by_alias=True))
 
-    def get_exercise_api(self, exercise_id : str) -> Response:
+    @allure.step("Get exercise by id {exercise_id}")
+    def get_exercise_api(self, exercise_id: str) -> Response:
         """
         Метод для получения упражнения.
         :param exercise_id : Идентификатор упражнения.
@@ -32,6 +31,7 @@ class ExercisesClient(APIClient):
         """
         return self.get(f"/api/v1/exercises/{exercise_id}")
 
+    @allure.step("Create exercise")
     def create_exercise_api(self, request: CreateExerciseRequestSchema) -> Response:
         """
         Метод для создания упражнения.
@@ -40,6 +40,7 @@ class ExercisesClient(APIClient):
         """
         return self.post("/api/v1/exercises", json=request.model_dump(by_alias=True))
 
+    @allure.step("Update exercise by id {exercise_id}")
     def update_exercise_api(self, exercise_id: str, request: UpdateExerciseRequestSchema) -> Response:
         """
         Метод для обновления упражнения.
@@ -49,11 +50,12 @@ class ExercisesClient(APIClient):
         """
         return self.patch(f"/api/v1/exercises/{exercise_id}", json=request.model_dump(by_alias=True))
 
+    @allure.step("Delete exercise by id {exercise_id}")
     def delete_exercise_api(self, exercise_id: str) -> Response:
         """
         Метод удаления упражнения.
-        :param exercise_id:
-        :return:
+        :param exercise_id: Идентификатор упражнения.
+        :return: Ответ от сервера в виде объекта httpx.Response.
         """
         return self.delete(f"/api/v1/exercises/{exercise_id}")
 
